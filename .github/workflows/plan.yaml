@@ -4,8 +4,7 @@ name: github-actions-per-push
 # Running Timing
 on:
   pull_request:
-    branches:
-      - create-github-actions
+    types: [opened, reopened]
 
 # Define Job
 jobs:
