@@ -75,8 +75,7 @@ jobs:
         with:
           github-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           script: |
-            #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
-            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            const output = "#### Terraform Format and Style 🖌" + steps.fmt.outcome + "\n" + "#### Terraform Plan 📖" + steps.plan.outcome + "\n"
 
             github.issues.createComment({
               issue_number: context.issue.number,
