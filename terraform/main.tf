@@ -1,7 +1,5 @@
 # Provider
 provider "aws" {
-  allowed_account_ids = []
-
   region = "ap-northeast-1"
 }
 
