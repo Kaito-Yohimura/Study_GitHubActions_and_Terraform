@@ -20,12 +20,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Check diff
-        id: diff
-        uses: technote-space/get-diff-action@v4.0.2
-        with:
-          PATTERNS: |
-            /**/*.tf
+      # - name: Check diff
+      #   id: diff
+      #   uses: technote-space/get-diff-action@v4.0.2
+      #   with:
+      #     PATTERNS: |
+      #       /**/*.tf
 
       - name: Configure aws credentials
         # if: steps.diff.outputs.diff
@@ -50,7 +50,7 @@ jobs:
       - name: Initialize
         id: init
         # if: steps.diff.outputs.diff
-        run: terraform init
+        run: pwd; terraform init
 
       - name: Download modules
         # if: steps.diff.outputs.diff
