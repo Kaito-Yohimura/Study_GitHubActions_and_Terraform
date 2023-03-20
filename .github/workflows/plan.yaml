@@ -3,7 +3,7 @@ name: github-actions-per-push
 
 # Running Timing
 on:
-  push:
+  pull_request:
     branches:
       - create-github-actions
 
