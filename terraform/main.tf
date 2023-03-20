@@ -25,7 +25,7 @@ terraform {
 # Resource
 resource "aws_instance" "web" {
   ami           = "ami-067871d950411e643"
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
 
   tags = {
     Name = "yoshimura-study"
