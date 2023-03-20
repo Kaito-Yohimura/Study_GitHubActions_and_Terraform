@@ -1,16 +1,17 @@
 # Workflow Name
-name: github-actions-per-push
+name: github-actions-per-merge
 
 # Running Timing
 on:
   pull_request:
-    types: [opened, reopened]
+    types:
+      - closed
 
 # Define Job
 jobs:
 
   # Job Name
-  plan:
+  apply:
     # Running Env
     runs-on: ubuntu-latest
 
@@ -49,7 +50,10 @@ jobs:
       - name: Plan
         id: plan
         run: cd terraform; pwd; terraform plan -no-color
-        continue-on-error: true
+
+      - name: Apply
+        if: steps.plan.outcome == 'success'
+        run: cd terraform; pwd; terraform apply -auto-approve
 
       # Create Comment on PR
       - name: Comment
@@ -62,6 +66,7 @@ jobs:
             const output = `
             #### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Apply ☀\`${{ steps.apply.outcome }}\`
 
             <details><summary>Show Plan</summary>
 
