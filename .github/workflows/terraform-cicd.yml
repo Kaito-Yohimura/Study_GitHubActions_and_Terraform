@@ -50,6 +50,18 @@ jobs:
           echo "github.event          = ${{ github.event }}"
           echo "github.ref            = ${{ github.ref }}"
 
+          if [ ${{ github.event.pull_request.head.ref == 'main' }} ]; then
+            echo "this is main."
+          else
+            echo "this is not main."
+          fi
+
+          if [ ${{ github.event.pull_request.merged == 'false' }} ]; then
+            echo "merged."
+          else
+            echo "not merged."
+          fi
+
   terraform-cicd-a:
     needs: change-detection
     if: >-
@@ -75,22 +87,6 @@ jobs:
       - name: Test
         run: |
           echo "this is test of terraform-cicd-b."
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
-          if [ ${{ github.event.pull_request.head.ref == 'main' }} ]; then
-            echo "this is main."
-          else
-            echo "this is not main."
-          fi
-
-          if [ ${{ github.event.pull_request.merged == 'false' }} ]; then
-            echo "merged."
-          else
-            echo "not merged."
-          fi
 
   no-changes:
     needs: change-detection
