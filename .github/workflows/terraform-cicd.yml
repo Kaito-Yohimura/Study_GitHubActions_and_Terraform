@@ -56,7 +56,7 @@ jobs:
             echo "this is not main."
           fi
 
-          if [ ${{ github.event.pull_request.merged == 'false' }} ]; then
+          if [ ${{ github.event.pull_request.merged }} == 'false' ]; then
             echo "merged."
           else
             echo "not merged."
