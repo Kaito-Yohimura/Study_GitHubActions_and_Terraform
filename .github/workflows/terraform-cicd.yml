@@ -1,0 +1,76 @@
+name: test-workflow
+
+on:
+  pull_request:
+    types: [opened, closed]
+    branches:
+      - main
+      - dev1
+
+env:
+  WORK_DIR: terraform
+  # AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  # AWS_REGION: "ap-northeast-1"
+  # TF_VERSION: "1.4.2"
+
+jobs:
+  change-detection:
+    runs-on: ubuntu-latest
+    outputs:
+      is-changed: ${{ steps.filter.outputs.all }}
+      is-changed-a: ${{ steps.filter.outputs.a }}
+      is-changed-b: ${{ steps.filter.outputs.b }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Paths Changes Filter
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            all:
+              - ${{ env.WORK_DIR }}/**
+            a:
+              - ${{ env.WORK_DIR }}/a/**
+            b:
+              - ${{ env.WORK_DIR }}/b/**
+
+  echo:
+    needs: change-detection
+    runs-on: ubuntu-latest
+    steps:
+      name: Echo
+      run: |
+        echo ${{ github.event.pull_request.merged }}
+        echo ${{ needs.change-detection.outputs.is-changed-a }}
+        echo ${{ needs.change-detection.outputs.is-changed-b }}
+
+  terraform-cicd-a:
+    needs: change-detection
+    if: >-
+      ${{ github.event.pull_request.merged }} == 'true' ||
+      ${{ needs.change-detection.outputs.is-changed-a }} == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      name: Test
+      run: |
+        echo "this is test of terraform-cicd-a."
+
+  terraform-cicd-b:
+    needs: change-detection
+    if: >-
+      ${{ github.event.pull_request.merged }} == 'true' ||
+      ${{ needs.change-detection.outputs.is-changed-b }} == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      name: Test
+      run: |
+        echo "this is test of terraform-cicd-b."
+
+  no-changes:
+    needs: change-detection
+    if: ${{ needs.change-detection.outputs.is-changed }} == 'false'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+        echo "this is no-changes action."

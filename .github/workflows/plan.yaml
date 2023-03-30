@@ -2,9 +2,9 @@
 name: github-actions-per-push
 
 # Running Timing
-on:
-  pull_request:
-    types: [opened, reopened]
+# on:
+#   pull_request:
+#     types: [opened, reopened]
 
 # Define Job
 jobs:
