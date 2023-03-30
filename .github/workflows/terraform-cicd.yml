@@ -62,6 +62,14 @@ jobs:
             echo "not merged."
           fi
 
+          if [ ${{ github.event.pull_request.merged }} == 'true' || ${{ github.event.pull_request.head.ref }} == 'test2']; then
+            echo "compound condition"
+          fi
+
+      - name: run-after-merge
+        if: ${{ github.event.pull_request.merged == 'true' }}
+        run: echo "this step run after merge."
+
   terraform-cicd-a:
     needs: change-detection
     if: >-
