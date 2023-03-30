@@ -66,11 +66,6 @@ jobs:
             echo "compound condition"
           fi
 
-          pwd; cd terraform; pwd;
-
-      - name: dir-check
-        run: pwd;
-
       - name: run-after-merge
         if: ${{ github.event.pull_request.merged == 'true' }}
         run: echo "this step run after merge."
@@ -78,10 +73,8 @@ jobs:
   terraform-cicd-a:
     needs: change-detection
     if: >-
-      ${{
-        github.event.pull_request.merged == 'true' ||
-        needs.change-detection.outputs.is-changed-a == 'true'
-      }}
+      ${{ github.event.pull_request.merged == 'true' }} ||
+      ${{ needs.change-detection.outputs.is-changed-a == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Test
