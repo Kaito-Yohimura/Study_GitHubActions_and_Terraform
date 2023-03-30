@@ -67,6 +67,7 @@ jobs:
           fi
 
           pwd
+          ls
           cd ./terraform/a
           pwd
 
