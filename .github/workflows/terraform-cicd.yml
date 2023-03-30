@@ -66,11 +66,10 @@ jobs:
             echo "compound condition"
           fi
 
-          pwd
-          find / -name "terraform"
+          pwd; cd terraform; pwd;
 
       - name: dir-check
-        run: pwd
+        run: pwd;
 
       - name: run-after-merge
         if: ${{ github.event.pull_request.merged == 'true' }}
