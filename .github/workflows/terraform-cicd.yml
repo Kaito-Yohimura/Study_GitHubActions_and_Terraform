@@ -62,7 +62,7 @@ jobs:
             echo "not merged."
           fi
 
-          if [ ${{ github.event.pull_request.merged }} == 'true' ] || [ ${{ github.event.pull_request.head.ref }} == 'test2']; then
+          if [ ${{ github.event.pull_request.merged }} == 'true' ] || [ ${{ github.event.pull_request.head.ref }} == 'test2' ]; then
             echo "compound condition"
           fi
 
