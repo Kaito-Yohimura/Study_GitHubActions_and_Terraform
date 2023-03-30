@@ -82,13 +82,13 @@ jobs:
       - run: |
           if [ ${{ github.event.pull_request.head.ref == 'main' }} ]
             echo "this is main."
-          else
+          elif [ ${{ github.event.pull_request.head.ref != 'main' }} ]
             echo "this is not main."
           fi
 
           if [ ${{ github.event.pull_request.merged == 'true' }} ]
             echo "merged."
-          else
+          elif [ ${{ github.event.pull_request.merged == 'false' }} ]
             echo "not merged."
           fi
 
