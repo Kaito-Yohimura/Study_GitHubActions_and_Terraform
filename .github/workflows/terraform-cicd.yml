@@ -96,6 +96,13 @@ jobs:
         run: |
           echo "this is test of terraform-cicd-b."
 
+  run-ok-and-skip:
+    needs: [ terraform-cicd-a, terraform-cicd-b ]
+    if: ${{ ! failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "needsで指定したJobが失敗しない限りは動く"
+
   no-changes:
     needs: change-detection
     if: ${{ needs.change-detection.outputs.is-changed == 'false' }}
