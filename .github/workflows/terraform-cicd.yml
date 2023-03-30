@@ -42,9 +42,10 @@ jobs:
       - name: Echo
         run: |
           echo ${{ github.event.pull_request.merged }}
-          echo ${{ needs.change-detection.outputs.is-changed }}
+          echo "is-changed = ${{ needs.change-detection.outputs.is-changed }}"
           echo ${{ needs.change-detection.outputs.is-changed-a }}
           echo ${{ needs.change-detection.outputs.is-changed-b }}
+          echo ${{ github.event.pull_request.head.ref }}
 
   terraform-cicd-a:
     needs: change-detection
