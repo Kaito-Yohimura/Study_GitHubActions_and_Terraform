@@ -39,11 +39,11 @@ jobs:
     needs: change-detection
     runs-on: ubuntu-latest
     steps:
-      name: Echo
-      run: |
-        echo ${{ github.event.pull_request.merged }}
-        echo ${{ needs.change-detection.outputs.is-changed-a }}
-        echo ${{ needs.change-detection.outputs.is-changed-b }}
+      - name: Echo
+        run: |
+          echo ${{ github.event.pull_request.merged }}
+          echo ${{ needs.change-detection.outputs.is-changed-a }}
+          echo ${{ needs.change-detection.outputs.is-changed-b }}
 
   terraform-cicd-a:
     needs: change-detection
@@ -52,9 +52,9 @@ jobs:
       ${{ needs.change-detection.outputs.is-changed-a }} == 'true'
     runs-on: ubuntu-latest
     steps:
-      name: Test
-      run: |
-        echo "this is test of terraform-cicd-a."
+      - name: Test
+        run: |
+          echo "this is test of terraform-cicd-a."
 
   terraform-cicd-b:
     needs: change-detection
@@ -63,9 +63,9 @@ jobs:
       ${{ needs.change-detection.outputs.is-changed-b }} == 'true'
     runs-on: ubuntu-latest
     steps:
-      name: Test
-      run: |
-        echo "this is test of terraform-cicd-b."
+      - name: Test
+        run: |
+          echo "this is test of terraform-cicd-b."
 
   no-changes:
     needs: change-detection
