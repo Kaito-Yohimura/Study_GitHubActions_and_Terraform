@@ -72,7 +72,11 @@ jobs:
 
   terraform-cicd-a:
     needs: change-detection
-    if: github.event.pull_request.merged == true || needs.change-detection.outputs.is-changed-a == true
+    if: >-
+      ${{
+        github.event.pull_request.merged == true ||
+        needs.change-detection.outputs.is-changed-a == 'true'
+      }}
     runs-on: ubuntu-latest
     steps:
       - name: Test
@@ -81,7 +85,11 @@ jobs:
 
   terraform-cicd-b:
     needs: change-detection
-    if: ${{ github.event.pull_request.merged == true || needs.change-detection.outputs.is-changed-b == true }}
+    if: >-
+      ${{
+        github.event.pull_request.merged == true ||
+        needs.change-detection.outputs.is-changed-b == 'true'
+      }}
     runs-on: ubuntu-latest
     steps:
       - name: Test
