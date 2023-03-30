@@ -76,6 +76,22 @@ jobs:
         run: |
           echo "this is test of terraform-cicd-b."
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ ${{ github.event.pull_request.head.ref == 'main' }} ]
+            echo "this is main."
+          else
+            echo "this is not main."
+          fi
+
+          if [ ${{ github.event.pull_request.merged == 'true' }} ]
+            echo "merged."
+          else
+            echo "not merged."
+          fi
+
   no-changes:
     needs: change-detection
     if: ${{ needs.change-detection.outputs.is-changed == 'false' }}
