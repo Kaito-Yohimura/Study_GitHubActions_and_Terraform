@@ -67,8 +67,7 @@ jobs:
           fi
 
           pwd
-          cd ../terraform/a
-          pwd
+          find / -name "terraform"
 
       - name: dir-check
         run: pwd
