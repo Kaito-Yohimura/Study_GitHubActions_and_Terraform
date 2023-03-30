@@ -80,15 +80,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          if [ ${{ github.event.pull_request.head.ref == 'main' }} ]
+          if [ ${{ github.event.pull_request.head.ref == 'main' }} ]; then
             echo "this is main."
-          elif [ ${{ github.event.pull_request.head.ref != 'main' }} ]
+          else
             echo "this is not main."
           fi
 
-          if [ ${{ github.event.pull_request.merged == 'true' }} ]
+          if [ ${{ github.event.pull_request.merged == 'true' }} ]; then
             echo "merged."
-          elif [ ${{ github.event.pull_request.merged == 'false' }} ]
+          else
             echo "not merged."
           fi
 
