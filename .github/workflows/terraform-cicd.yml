@@ -50,7 +50,7 @@ jobs:
           echo "github.event          = ${{ github.event }}"
           echo "github.ref            = ${{ github.ref }}"
 
-          if [ ${{ github.event.pull_request.head.ref == 'main' }} ]; then
+          if [ ${{ github.event.pull_request.head.ref }} == 'main' ]; then
             echo "this is main."
           else
             echo "this is not main."
