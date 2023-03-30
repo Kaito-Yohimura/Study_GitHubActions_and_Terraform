@@ -48,6 +48,7 @@ jobs:
           echo "pull_request.head.ref = ${{ github.event.pull_request.head.ref }}"
           echo "github.base_ref       = ${{ github.base_ref }}"
           echo "github.event          = ${{ github.event }}"
+          echo "github.ref            = ${{ github.ref }}"
 
   terraform-cicd-a:
     needs: change-detection
