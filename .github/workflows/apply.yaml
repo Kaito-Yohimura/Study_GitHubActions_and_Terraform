@@ -2,10 +2,11 @@
 name: github-actions-per-merge
 
 # Running Timing
-# on:
+on:
 #   pull_request:
 #     types:
 #       - closed
+  workflow_call:
 
 # Define Job
 jobs:

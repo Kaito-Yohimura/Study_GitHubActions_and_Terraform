@@ -70,7 +70,7 @@ jobs:
 
   no-changes:
     needs: change-detection
-    if: ${{ needs.change-detection.outputs.is-changed }} == 'false'
+    if: ${{ needs.change-detection.outputs.is-changed == 'false' }}
     runs-on: ubuntu-latest
     steps:
       - run: |
