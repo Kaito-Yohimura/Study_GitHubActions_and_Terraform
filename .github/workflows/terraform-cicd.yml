@@ -75,7 +75,7 @@ jobs:
     if: >-
       ${{
         github.event.pull_request.merged == true ||
-        needs.change-detection.outputs.is-changed-a == "true"
+        needs.change-detection.outputs.is-changed-a == 'true'
       }}
     runs-on: ubuntu-latest
     steps:
@@ -88,7 +88,7 @@ jobs:
     if: >-
       ${{
         github.event.pull_request.merged == true ||
-        needs.change-detection.outputs.is-changed-b == "true"
+        needs.change-detection.outputs.is-changed-b == 'true'
       }}
     runs-on: ubuntu-latest
     steps:
