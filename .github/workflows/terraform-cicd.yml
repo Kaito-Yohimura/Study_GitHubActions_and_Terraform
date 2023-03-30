@@ -66,6 +66,13 @@ jobs:
             echo "compound condition"
           fi
 
+          pwd
+          cd ./terraform/a
+          pwd
+
+      - name: dir-check
+        run: pwd
+
       - name: run-after-merge
         if: ${{ github.event.pull_request.merged == 'true' }}
         run: echo "this step run after merge."
