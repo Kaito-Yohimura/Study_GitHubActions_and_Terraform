@@ -1,0 +1,112 @@
+name: test-workflow
+
+on:
+  pull_request:
+    types: [opened, closed]
+    branches:
+      - main
+      - dev1
+
+env:
+  WORK_DIR: terraform
+  # AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+  # AWS_REGION: "ap-northeast-1"
+  # TF_VERSION: "1.4.2"
+
+jobs:
+  change-detection:
+    runs-on: ubuntu-latest
+    outputs:
+      is-changed: ${{ steps.filter.outputs.all }}
+      is-changed-a: ${{ steps.filter.outputs.a }}
+      is-changed-b: ${{ steps.filter.outputs.b }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Paths Changes Filter
+        id: filter
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            all:
+              - ${{ env.WORK_DIR }}/**
+            a:
+              - ${{ env.WORK_DIR }}/a/**
+            b:
+              - ${{ env.WORK_DIR }}/b/**
+
+  echo:
+    needs: change-detection
+    runs-on: ubuntu-latest
+    steps:
+      - name: run-after-merge
+        if: ${{ github.event.pull_request.merged == true }}
+        run: echo "this step run after merge."
+
+      - name: Echo
+        run: |
+          echo "pull_request.merged   = ${{ github.event.pull_request.merged }}"
+          echo "is-changed            = ${{ needs.change-detection.outputs.is-changed }}"
+          echo "is-changed-a          = ${{ needs.change-detection.outputs.is-changed-a }}"
+          echo "is-changed-b          = ${{ needs.change-detection.outputs.is-changed-b }}"
+          echo "pull_request.head.ref = ${{ github.event.pull_request.head.ref }}"
+          echo "github.base_ref       = ${{ github.base_ref }}"
+          echo "github.event          = ${{ github.event }}"
+          echo "github.ref            = ${{ github.ref }}"
+
+          if [ ${{ github.event.pull_request.head.ref }} == 'main' ]; then
+            echo "this is main."
+          else
+            echo "this is not main."
+          fi
+
+          if [ ${{ github.event.pull_request.merged }} == 'true' ]; then
+            echo "merged."
+          else
+            echo "not merged."
+          fi
+
+          if [ ${{ github.event.pull_request.merged }} == 'true' ] || [ ${{ github.event.pull_request.head.ref }} == 'test2' ]; then
+            echo "compound condition"
+          fi
+
+  terraform-cicd-a:
+    needs: change-detection
+    if: >-
+      ${{
+        github.event.pull_request.merged == true ||
+        needs.change-detection.outputs.is-changed-a == 'true'
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo "this is test of terraform-cicd-a."
+
+  terraform-cicd-b:
+    needs: change-detection
+    if: >-
+      ${{
+        github.event.pull_request.merged == true ||
+        needs.change-detection.outputs.is-changed-b == 'true'
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo "this is test of terraform-cicd-b."
+
+  run-ok-and-skip:
+    needs: [ terraform-cicd-a, terraform-cicd-b ]
+    if: ${{ ! failure() }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "needsで指定したJobが失敗しない限りは動く"
+
+  no-changes:
+    needs: change-detection
+    if: ${{ needs.change-detection.outputs.is-changed == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "this is no-changes action."

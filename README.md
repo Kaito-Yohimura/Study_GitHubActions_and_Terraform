@@ -1,5 +1,5 @@
 # Study_GitHubActions_and_Terraform
-自己学習 : GitHub Actions + Terraform によるインフラ構築パイプラインの作成  
+自己学習 : GitHub Actions + Terraform によるインフラ構築パイプラインの作成等  
 
 ## メモ
 - パブリックリポジトリの場合、無料利用可能  
