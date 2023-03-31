@@ -28,6 +28,6 @@ resource "aws_instance" "web" {
   instance_type = "t3.micro"
 
   tags = {
-    Name = "yoshimura-study-a-test"
+    Name = "yoshimura-study-a"
   }
 }
