@@ -6,6 +6,8 @@ on:
     branches:
       - main
       - dev1
+      - stg1
+      - prod
 
 env:
   WORK_DIR: terraform
