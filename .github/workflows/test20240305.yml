@@ -29,7 +29,7 @@ jobs:
               env = "stg1";
             }
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
+              issue_number: 18,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: env
