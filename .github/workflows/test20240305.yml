@@ -22,7 +22,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            if (${{ inputs.environment }} == 'dev') {
+            if ("${{ inputs.environment }}" == 'dev') {
               const environment = "dev1";
             } else {
               const environment = "stg1";
