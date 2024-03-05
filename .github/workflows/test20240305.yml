@@ -23,9 +23,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             if (${{ inputs.environment }} == 'dev') {
-              environment = "dev1";
+              const environment = "dev1";
             } else {
-              environment = "stg1";
+              const environment = "stg1";
             }
             github.rest.issues.createComment({
               issue_number: context.issue.number,
